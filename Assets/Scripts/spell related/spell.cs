@@ -9,19 +9,20 @@ public abstract class Spell : MonoBehaviour
     protected float cooldown;
     protected float cooldownTimer;
 
+
     // Update is called once per frame
     void Update()
     {
         cooldownTimer -= Time.deltaTime;
     }
 
-    public abstract void CastEffect();
+    public abstract void CastEffect(Transform sender);
 
-    public void Cast()
+    public void Cast(Transform sender)
     {
         if (cooldownTimer <= 0)
         {
-            CastEffect();
+            CastEffect(sender);
             cooldownTimer = cooldown;
         }
     }

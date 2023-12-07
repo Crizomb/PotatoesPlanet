@@ -6,6 +6,7 @@ using UnityEngine;
 public class playerScript : gravityAffectedObject
 {
     public InputHandler inputHandler;
+    public ProjectileSpell projSpell;
     public float moveForce = 5f;
     public float jumpForce = 5f;
     public int baseHealth = 100;
@@ -23,6 +24,7 @@ public class playerScript : gravityAffectedObject
         Jump();
         Movement();
         base.Update();
+        Spell_manager();
     }
 
       // ------------------//
@@ -39,7 +41,6 @@ public class playerScript : gravityAffectedObject
         if (inputHandler.getJump() && isGrounded())
         {
             base.rb.AddForce(transform.rotation * Vector3.up * jumpForce, ForceMode.Impulse);
-            Debug.Log("Jump");
         }
     }
 
@@ -48,7 +49,6 @@ public class playerScript : gravityAffectedObject
         float horizontal_input = inputHandler.movementInput.x;
         float vertical_input = inputHandler.movementInput.y;
         float localmoveForce = moveForce;
-        Debug.Log(horizontal_input + " " + vertical_input);
 
         if (! isGrounded())
         {
@@ -59,6 +59,20 @@ public class playerScript : gravityAffectedObject
         base.rb.AddForce(transform.rotation * movement_force);
 
     }
+
+    // ------------//
+    // Other input //
+    // ----------- //
+
+    void Spell_manager()
+    {
+        if (inputHandler.getFire())
+        {
+            projSpell.CastEffect(transform);
+        }
+    }
+
+    
 
     // -------------------//
     // Damage and Healing //
