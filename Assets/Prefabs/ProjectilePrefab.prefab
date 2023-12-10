@@ -706,7 +706,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c22777d6e868e4f2fb421913386b154e, type: 2}
+  - {fileID: 2100000, guid: ea018fa7ccd4cc54cbeeaea34c2d97cf, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -743,7 +743,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3860506939243476982}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 8546efb231daeec408ed3b38434a5413, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -803,8 +803,8 @@ Rigidbody:
   m_GameObject: {fileID: 6845673836696179444}
   serializedVersion: 4
   m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
+  m_Drag: 0.01
+  m_AngularDrag: 0
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -816,11 +816,11 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!136 &4875324530495696523
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -828,7 +828,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6845673836696179444}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 8546efb231daeec408ed3b38434a5413, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -858,6 +858,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GravityCenter: {x: 0, y: 0, z: 0}
   GravityForce: 9.8
+  isBeingCast: 0
+  playerTransform: {fileID: 0}
+  spawnPosition: {x: 0, y: 0, z: 0}
+  maxCastTime: 3
+  baseDamage: 10
 --- !u!114 &5295106907328779748
 MonoBehaviour:
   m_ObjectHideFlags: 0

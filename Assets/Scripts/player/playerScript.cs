@@ -2,29 +2,54 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class playerScript : gravityAffectedObject
 {
     public InputHandler inputHandler;
     public ProjectileSpell projSpell;
-    public float moveForce = 5f;
-    public float jumpForce = 5f;
-    public int baseHealth = 100;
+
+    public float baseMoveForce;
+    private float moveForce;
+
+
+    public float jumpForce;
+    public float baseHealth;
+    public float healingRate;
+
+    [SerializeField] private Slider healthBar;
+    [SerializeField] private GameObject logic;
+    private SkillPointsScript skillPointsScript;
+    public float health;
+
+
+
 
     // Start is called before the first frame update
 
     void Start()
     {
         base.Start();
+        skillPointsScript = logic.GetComponent<SkillPointsScript>();
+        if (skillPointsScript == null)
+        {
+            throw new Exception("SkillPointsScript not found");
+        }
+        health = baseHealth;
     }
 
-    // Update is called once per frame
     void FixedUpdate()
     {
+        moveForce = baseMoveForce * (1+((float)skillPointsScript.speedLevel-1f)/10f);
+
+        base.Update();
         Jump();
         Movement();
-        base.Update();
         Spell_manager();
+        HealthBar();
+        CheckDeath();
+        Healing();
     }
 
       // ------------------//
@@ -66,25 +91,62 @@ public class playerScript : gravityAffectedObject
 
     void Spell_manager()
     {
-        if (inputHandler.getFire())
+        if (inputHandler.getFireDown())
         {
-            projSpell.CastEffect(transform);
+            projSpell.StartCast(transform);
+        }
+
+        if (inputHandler.getFireUp())
+        {
+            projSpell.StopCast(transform);
         }
     }
 
-    
+
 
     // -------------------//
     // Damage and Healing //
     // -----------------  //
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnCollisionStay(Collision collision)
     {
-        if (collision.gameObject.tag == "Enemy")
+        damageHolder damageHolder = collision.gameObject.GetComponent<damageHolder>();
+        if (damageHolder != null)
         {
-            baseHealth -= 10;
-            Debug.Log("Player Health: " + baseHealth);
+            health -= damageHolder.damage;
+            base.rb.AddForce(-transform.forward * 10f, ForceMode.Impulse);
+            if (health <= 0)
+            {
+                NotImplementedException e = new NotImplementedException();
+            }
         }
+    }
+
+    void Healing()
+    {
+        health += healingRate * Time.fixedDeltaTime;
+        if (health > baseHealth)
+        {
+            health = baseHealth;
+        }
+    }
+
+    void CheckDeath()
+    {
+        if (health <= 0)
+        {
+            SoundManager.Instance.PlayDeathSound();
+            SceneManager.LoadScene("GameOver");
+        }
+    }
+
+    // -------------------//
+    // Health Bar         //
+    // -----------------  //
+
+    void HealthBar()
+    {
+          healthBar.value = (float) health / baseHealth;
     }
 
 }

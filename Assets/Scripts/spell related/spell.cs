@@ -5,26 +5,36 @@ using UnityEngine;
 public abstract class Spell : MonoBehaviour
 {
     protected int manaCost;
-    protected int damage;
-    protected float cooldown;
-    protected float cooldownTimer;
+    protected float damage;
+
+    public float timeCasting = 0f;
+    private bool isCasting = false;
 
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        cooldownTimer -= Time.deltaTime;
+        if (isCasting)
+        {
+            timeCasting += Time.deltaTime;
+        }
     }
 
-    public abstract void CastEffect(Transform sender);
+    public abstract void StartCastEffect(Transform sender);
+    public abstract void StopCastEffect(Transform sender);
 
-    public void Cast(Transform sender)
+    public void StartCast(Transform sender)
     {
-        if (cooldownTimer <= 0)
-        {
-            CastEffect(sender);
-            cooldownTimer = cooldown;
-        }
+        StartCastEffect(sender);
+        isCasting = true;
+
+    }
+
+    public void StopCast(Transform sender)
+    {
+        StopCastEffect(sender);
+        isCasting = false;
+        timeCasting = 0f;
     }
 
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class gravityAffectedObject : MonoBehaviour
 {
     public Vector3 GravityCenter = new Vector3(0, 0, 0);
-    public float GravityForce = 9.8f;
+    public float GravityForce = 5f;
 
     protected Rigidbody rb;
 

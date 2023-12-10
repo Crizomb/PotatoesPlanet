@@ -18,5 +18,6 @@ public class moonMovement : MonoBehaviour
     {
         angle += speed * Time.deltaTime;
         transform.position = new Vector3(Mathf.Cos(angle), 0, Mathf.Sin(angle)) * radius;
+        transform.LookAt(Vector3.zero);
     }
 }
